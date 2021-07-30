@@ -218,7 +218,7 @@ class Stripe {
   ]) async {
     await _awaitForSettings();
     try {
-      final paymentMethod = await _platform.confirmPayment(
+      final paymentMethod = await _platform.confirmPaymentMethod(
           paymentIntentClientSecret, data, options);
       return paymentMethod;
     } on StripeError {
@@ -261,7 +261,7 @@ class Stripe {
       final setupIntent = await _platform.confirmSetupIntent(
           paymentIntentClientSecret, params, options);
       return setupIntent;
-    } on StripeException {
+    } on Exception {
       rethrow;
     }
   }

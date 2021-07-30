@@ -37,7 +37,7 @@ class _PaymentSheetScreenState extends State<PaymentSheetScreen> {
   }
 
   Future<Map<String, dynamic>> _createTestPaymentSheet() async {
-    final url = Uri.parse('$kApiUrl/payment-sheet');
+    final url = Uri.http('$kApiUrl', 'payment-sheet');
     final response = await http.post(
       url,
       headers: {
@@ -53,8 +53,14 @@ class _PaymentSheetScreenState extends State<PaymentSheetScreen> {
   Future<void> _initPaymentSheet() async {
     try {
       // 1. create payment intent on the server
-      _paymentSheetData = await _createTestPaymentSheet();
-
+      // _paymentSheetData = await _createTestPaymentSheet();
+      _paymentSheetData = {
+        "paymentIntent":
+            "pi_1JIcGwHBIVwAVtXHMCZFOcyy_secret_MWcin8BBhuoa1tfhSfSCSfxRM",
+        "ephemeralKey":
+            "ek_test_YWNjdF8xSUdxekNIQklWd0FWdFhILHVKeEZTeTJibGY5eFNCNmh2UlRkd2Y0cDN0M2ZwVTM_00Hkyez4zq",
+        "customer": "cus_JwVGGqQrfPEbO3"
+      };
       if (_paymentSheetData!['error'] != null) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Error code: ${_paymentSheetData!['error']}')));
@@ -87,7 +93,7 @@ class _PaymentSheetScreenState extends State<PaymentSheetScreen> {
   Future<void> _displayPaymentSheet() async {
     try {
       // 3. display the payment sheet.
-       await Stripe.instance.presentPaymentSheet(
+      await Stripe.instance.presentPaymentSheet(
           parameters: PresentPaymentSheetParameters(
         clientSecret: _paymentSheetData!['paymentIntent'],
         confirmPayment: true,
@@ -102,10 +108,10 @@ class _PaymentSheetScreenState extends State<PaymentSheetScreen> {
           content: Text('Payment succesfully completed'),
         ),
       );
-    } on StripeException catch (e) {
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${e.error.localizedMessage}'),
+          content: Text('${e}'),
         ),
       );
     }

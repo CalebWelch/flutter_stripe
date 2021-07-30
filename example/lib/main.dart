@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:stripe_example/.env.dart';
 import 'screens/screens.dart';
-
 import 'widgets/dismiss_focus_overlay.dart';
 
 void main() async {

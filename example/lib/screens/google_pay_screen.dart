@@ -91,7 +91,7 @@ class _GooglePayScreenState extends State<GooglePayScreen> {
       );
 
       // 3. Confirm Google pay payment method
-      await Stripe.instance.confirmPayment(
+      await Stripe.instance.confirmPaymentMethod(
         clientSecret,
         params,
       );

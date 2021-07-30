@@ -5,7 +5,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:stripe_example/widgets/loading_button.dart';
 import 'package:stripe_platform_interface/stripe_platform_interface.dart';
-
+import '../widgets/card_field.dart';
 import '../config.dart';
 
 class NoWebhookPaymentScreen extends StatefulWidget {
@@ -15,11 +15,9 @@ class NoWebhookPaymentScreen extends StatefulWidget {
 
 class _NoWebhookPaymentScreenState extends State<NoWebhookPaymentScreen> {
   CardFieldInputDetails? _card;
-  final _editController = CardEditController();
 
   @override
   void dispose() {
-    _editController.dispose();
     super.dispose();
   }
 
@@ -31,8 +29,7 @@ class _NoWebhookPaymentScreenState extends State<NoWebhookPaymentScreen> {
         children: [
           Padding(
             padding: EdgeInsets.all(16),
-            child: CardField(
-              controller: _editController,
+            child: MyCardField(
               onCardChanged: (card) {
                 setState(() {
                   _card = card;
@@ -49,29 +46,6 @@ class _NoWebhookPaymentScreenState extends State<NoWebhookPaymentScreen> {
           ),
           Divider(
             thickness: 2,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: ElevatedButton(
-                  onPressed: () => _editController.blur(),
-                  child: Text('Blur'),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () => _editController.clear(),
-                child: Text('Clear'),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ElevatedButton(
-                  onPressed: () => _editController.focus(),
-                  child: Text('Focus'),
-                ),
-              ),
-            ],
           ),
         ],
       ),
